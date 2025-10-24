@@ -1,0 +1,13 @@
+# .gitignore
+.vitest/
+
+# 🚫 Node Modules
+node_modules/
+
+# 🗃️ Environment Variables
+.env
+.env.local
+
+# 🧰 Temporary Files
+tmp/
+temp/

@@ -1,0 +1,23 @@
+# 🚫 Node Modules & Build Artifacts
+node_modules/
+dist/
+build/
+.vite/
+
+# 📁 Vite Cache
+.vite/deps/
+
+# ⚙️ Environment Files
+.env
+.env.local
+.env.test
+.env.production
+
+# 🧪 Test Coverage & Logs
+coverage/
+*.lcov
+*.log
+*.test.js.snap
+test-output/
+jest/
+vitest/
