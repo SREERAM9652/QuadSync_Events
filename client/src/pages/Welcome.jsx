@@ -25,7 +25,6 @@ function Welcome() {
     const [daysLeft, setDaysLeft] = useState(null);
 
     useEffect(() => {
-        console.log('🎉 Welcome page loaded with data:', { name, email, event });
         toast.success('🎉 You\'re officially registered! See you at the event.');
         const timer = setTimeout(() => setShowConfetti(false), 5000);
         return () => clearTimeout(timer);
@@ -33,18 +32,12 @@ function Welcome() {
 
     useEffect(() => {
         if (!name || !email || !event) {
-            console.warn('⚠️ Missing registration data, redirecting to events');
             navigate('/events');
         } else {
-            try {
-                const eventDate = new Date(event.date);
-                const today = new Date();
-                const diff = differenceInDays(eventDate, today);
-                setDaysLeft(diff);
-                console.log('📅 Days until event:', diff);
-            } catch (error) {
-                console.error('❌ Error calculating days left:', error);
-            }
+            const eventDate = new Date(event.date);
+            const today = new Date();
+            const diff = differenceInDays(eventDate, today);
+            setDaysLeft(diff);
         }
     }, [name, email, event, navigate]);
 
@@ -58,9 +51,8 @@ function Welcome() {
                     text: shareText,
                     url: window.location.origin + '/events',
                 });
-                console.log('✅ Shared successfully');
             } catch (err) {
-                console.log('❌ Error sharing:', err);
+                console.log('Error sharing:', err);
             }
         } else {
             navigator.clipboard.writeText(shareText).then(() => {
@@ -72,9 +64,8 @@ function Welcome() {
     };
 
     const handleDownloadICS = () => {
-        try {
-            const startDate = format(new Date(event.date), "yyyyMMdd");
-            const icsContent = `
+        const startDate = format(new Date(event.date), "yyyyMMdd");
+        const icsContent = `
 BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
@@ -86,21 +77,16 @@ DTEND:${startDate}T120000Z
 STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR
-            `.trim();
+        `.trim();
 
-            const blob = new Blob([icsContent], { type: 'text/calendar' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `${event.title.replace(/\s+/g, '_')}.ics`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            toast.success('📅 Event added to your calendar!');
-            console.log('✅ Calendar file downloaded');
-        } catch (error) {
-            console.error('❌ Error downloading calendar:', error);
-            toast.error('Failed to download calendar file');
-        }
+        const blob = new Blob([icsContent], { type: 'text/calendar' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${event.title.replace(/\s+/g, '_')}.ics`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        toast.success('📅 Event added to your calendar!');
     };
 
     const containerVariants = {
