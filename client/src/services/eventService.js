@@ -1,14 +1,21 @@
-import axios from 'axios';
 import axiosInstance from '../utils/axiosInstance';
 
 const API = '/api/events';
 
-export const registerForEvent = (formData) =>
-  axiosInstance.post('/api/register', formData);
+export const registerForEvent = (formData) => {
+  console.log('📤 Registering for event with data:', formData);
+  return axiosInstance.post('/api/register', formData);
+};
 
-export const getEvents = () => axiosInstance.get(API);
+export const getEvents = () => {
+  console.log('🔄 Fetching all events');
+  return axiosInstance.get(API);
+};
 
-export const getEventById = (id) => axiosInstance.get(`${API}/${id}`);
+export const getEventById = (id) => {
+  console.log('🔄 Fetching event by ID:', id);
+  return axiosInstance.get(`${API}/${id}`);
+};
 
 export const createEvent = (formData, token) =>
   axiosInstance.post(API, formData, {
