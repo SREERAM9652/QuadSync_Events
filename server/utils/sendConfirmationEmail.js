@@ -20,7 +20,7 @@ const sendConfirmationEmail = async ({ name, email, eventTitle, eventDate, messa
       port: process.env.SMTP_PORT || 587,
       secure: false, // Use TLS
       auth: {
-        user: process.env.EMAIL_USER, // Gmail address
+        user: process.env.EMAIL_USER , // Gmail address
         pass: process.env.EMAIL_PASS, // App password
       },
       tls: {
