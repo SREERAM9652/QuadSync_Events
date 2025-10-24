@@ -24,12 +24,10 @@ function RegisterEvent() {
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
-        console.log('🔄 Fetching event details for:', eventId);
         const eventData = await getEventById(eventId);
-        setEvent(eventData.data);
-        console.log('✅ Event details loaded:', eventData.data.title);
+        setEvent(eventData.data); // Access the data property from axios response
       } catch (err) {
-        console.error('❌ Failed to fetch event details:', err);
+        console.error('Failed to fetch event details:', err);
         setStatus('❌ Failed to load event details. Please try again.');
       } finally {
         setEventLoading(false);
@@ -72,25 +70,20 @@ function RegisterEvent() {
     }
 
     setLoading(true);
-    console.log('🔄 Starting registration process...');
 
     try {
-      // Register for event
-      const registrationData = {
+      await registerForEvent({ 
         ...formData, 
         eventId,
         eventTitle: event?.title,
         eventDate: event?.date,
         eventTime: event?.time,
         eventLocation: event?.location
-      };
+      });
       
-      console.log('📤 Sending registration data:', registrationData);
-      await registerForEvent(registrationData);
+      setStatus('✅ Registration successful! Please check your email.');
       
-      console.log('✅ Registration successful, navigating to welcome page...');
-      
-      // IMMEDIATE navigation - don't wait for email
+      // Use actual event data from the fetched event
       navigate('/welcome', {
         state: {
           name: formData.name,
@@ -105,10 +98,11 @@ function RegisterEvent() {
           },
         },
       });
-      
+      setFormData({ name: '', email: '', mobile: '', message: '' });
     } catch (err) {
-      console.error('❌ Registration error:', err);
       setStatus('❌ Registration failed. Please try again.');
+      console.error('Registration error:', err);
+    } finally {
       setLoading(false);
     }
   };
@@ -282,14 +276,7 @@ function RegisterEvent() {
               loading ? 'bg-indigo-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 text-white'
             }`}
           >
-            {loading ? (
-              <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                Submitting...
-              </div>
-            ) : (
-              'Register Now'
-            )}
+            {loading ? 'Submitting...' : 'Register Now'}
           </button>
         </form>
 
@@ -355,17 +342,9 @@ function RegisterEvent() {
               </button>
               <button
                 onClick={handleSubmit}
-                disabled={loading}
-                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold disabled:bg-indigo-400 disabled:cursor-not-allowed"
+                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold"
               >
-                {loading ? (
-                  <div className="flex items-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Processing...
-                  </div>
-                ) : (
-                  'Confirm & Register'
-                )}
+                Confirm & Register
               </button>
             </div>
           </div>
