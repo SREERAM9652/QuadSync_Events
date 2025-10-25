@@ -15,7 +15,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.VITE_API_BASE_URL || 'https://quadsync-events.onrender.com', // ✅ fallback
+        target: process.env.VITE_API_BASE_URL || 'http://localhost:5000', // ✅ fallback
         changeOrigin: true,
         secure: false,
       },
