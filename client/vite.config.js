@@ -15,7 +15,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.VITE_API_BASE_URL || 'https://quadsync-events.onrender.com', // ✅ fallback
+        target: process.env.VITE_API_BASE_URL || 'https://quad-sync-events-yh13.vercel.app', // ✅ fallback
         changeOrigin: true,
         secure: false,
       },
