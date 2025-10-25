@@ -17,7 +17,7 @@ const sendConfirmationEmail = async ({ name, email, eventTitle, eventDate, messa
     // Create transporter with explicit Gmail SMTP config
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: process.env.SMTP_PORT || 587,
+      port: process.env.SMTP_PORT || 465,
       secure: false, // Use TLS
       auth: {
         user: process.env.EMAIL_USER , // Gmail address
